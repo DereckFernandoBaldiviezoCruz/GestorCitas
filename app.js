@@ -10,6 +10,8 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const app = express();
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -17,7 +19,6 @@ const pool = new Pool({
   }
 });
 
-const app = express();
 
 app.use(bodyParser.json());
 
@@ -33,5 +34,15 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+sequelize.sync()
+  .then(() => {
+    console.log('Database synced');
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('Database sync error:', err);
+  });
 
 module.exports = { pool };
