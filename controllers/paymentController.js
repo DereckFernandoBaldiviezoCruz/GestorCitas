@@ -69,7 +69,7 @@ exports.getPaymentsByPatientAndDate = async (req, res) => {
     console.log(patient_id+""+startDate+""+endDate);
     const payments = await Payment.findAll({
       where: {
-        patient_id: patient_id,
+        patient_id: req.params.patient_id,
         date: {
           [Op.between]: [new Date(startDate), new Date(endDate)]
         }
