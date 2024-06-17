@@ -67,7 +67,7 @@ exports.getPendingAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.findAll({
       where: {
-        patientId: req.params.patientId,
+        patient_id: req.params.patient_id,
         status: 'pending' // Suponiendo que tienes un campo 'status' para indicar el estado de la cita
       }
     });
