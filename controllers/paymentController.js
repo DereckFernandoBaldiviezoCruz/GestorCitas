@@ -66,6 +66,7 @@ exports.deletePayment = async (req, res) => {
 exports.getPaymentsByPatientAndDate = async (req, res) => {
   const { patient_id, startDate, endDate } = req.query;
   try {
+    console.log(patient_id+""+startDate+""+endDate);
     const payments = await Payment.findAll({
       where: {
         patient_id,
