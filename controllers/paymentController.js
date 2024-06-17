@@ -1,5 +1,5 @@
 const Payment = require('../models/payment');
-const  Op  = require('sequelize');
+const { Op } = require('sequelize');
 
 exports.createPayment = async (req, res) => {
   try {
