@@ -14,6 +14,13 @@ const Payment = sequelize.define('Payment', {
       key: 'id'
     }
   },
+  appointment_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'appointments',
+      key: 'id'
+    }
+  },
   amount: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
