@@ -7,7 +7,7 @@ const queueRoutes = require('./routes/queueRoutes');
 const recordRoutes = require('./routes/recordRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
-const sequelize = require('./database'); // importa sequelize
+const sequelize = require('./database/database'); // importa sequelize
 require('dotenv').config();
 
 const app = express();
