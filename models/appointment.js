@@ -21,8 +21,19 @@ const Appointment = sequelize.define('Appointment', {
       key: 'id'
     }
   },
+  consultationRoom_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'consultationRooms',
+      key: 'id'
+    }
+  },
   date: {
     type: DataTypes.DATE,
+    allowNull: false
+  },
+  time: {
+    type: DataTypes.TIME,
     allowNull: false
   },
   status: {
