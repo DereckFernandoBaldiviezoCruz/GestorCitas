@@ -7,18 +7,10 @@ const queueRoutes = require('./routes/queueRoutes');
 const recordRoutes = require('./routes/recordRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
-const { Pool } = require('pg');
+const sequelize = require('./database'); // importa sequelize
 require('dotenv').config();
 
 const app = express();
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
 
 app.use(bodyParser.json());
 
@@ -31,9 +23,8 @@ app.use('/appointments', appointmentRoutes);
 app.use('/payments', paymentRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+// Iniciar la aplicación después de sincronizar los modelos con la base de datos
 sequelize.sync()
   .then(() => {
     console.log('Database synced');
@@ -45,4 +36,4 @@ sequelize.sync()
     console.error('Database sync error:', err);
   });
 
-module.exports = { pool };
+module.exports = app;
