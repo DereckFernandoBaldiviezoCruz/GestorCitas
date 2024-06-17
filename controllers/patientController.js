@@ -1,4 +1,5 @@
 const Patient = require('../models/patient');
+const Appointment = require('../models/appointment');
 
 exports.createPatient = async (req, res) => {
   try {
@@ -57,6 +58,20 @@ exports.deletePatient = async (req, res) => {
     } else {
       res.status(200).json({ message: 'Patient deleted' });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getPendingAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.findAll({
+      where: {
+        patientId: req.params.patientId,
+        status: 'pending' // Suponiendo que tienes un campo 'status' para indicar el estado de la cita
+      }
+    });
+    res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

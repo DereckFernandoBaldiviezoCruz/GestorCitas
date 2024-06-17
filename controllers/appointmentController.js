@@ -1,4 +1,5 @@
 const Appointment = require('../models/appointment');
+const  Op  = require('sequelize');
 
 exports.createAppointment = async (req, res) => {
   try {
@@ -57,6 +58,24 @@ exports.deleteAppointment = async (req, res) => {
     } else {
       res.status(200).json({ message: 'Appointment deleted' });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getPendingAppointmentsByDoctorAndDate = async (req, res) => {
+  const { doctorId, date } = req.query;
+  try {
+    const appointments = await Appointment.findAll({
+      where: {
+        doctorId,
+        date: {
+          [Op.eq]: new Date(date)
+        },
+        status: 'pending'
+      }
+    });
+    res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

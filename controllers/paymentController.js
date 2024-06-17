@@ -61,3 +61,20 @@ exports.deletePayment = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getPaymentsByPatientAndDate = async (req, res) => {
+  const { patientId, startDate, endDate } = req.query;
+  try {
+    const payments = await Payment.findAll({
+      where: {
+        patientId,
+        date: {
+          [Op.between]: [new Date(startDate), new Date(endDate)]
+        }
+      }
+    });
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
