@@ -7,6 +7,6 @@ router.get('/', paymentController.getAllPayments);
 router.get('/:id', paymentController.getPaymentById);
 router.put('/:id', paymentController.updatePayment);
 router.delete('/:id', paymentController.deletePayment);
-router.get('/by-patient-date', paymentController.getPaymentsByPatientAndDate);
+router.get('/by-patient-date?:id&startDate&endDate', paymentController.getPaymentsByPatientAndDate);
 
 module.exports = router;
