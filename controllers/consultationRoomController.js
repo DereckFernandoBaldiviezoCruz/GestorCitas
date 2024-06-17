@@ -11,7 +11,7 @@ exports.createConsultationRoom = async (req, res) => {
 
 exports.getAllConsultationRooms = async (req, res) => {
   try {
-    const consultationRooms = await ConsultationRoom.getAll();
+    const consultationRooms = await ConsultationRoom.findAll();
     res.status(200).json(consultationRooms);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -20,7 +20,7 @@ exports.getAllConsultationRooms = async (req, res) => {
 
 exports.getConsultationRoomById = async (req, res) => {
   try {
-    const consultationRoom = await ConsultationRoom.getById(req.params.id);
+    const consultationRoom = await ConsultationRoom.findByPk(req.params.id);
     if (!consultationRoom) {
       res.status(404).json({ message: 'Consultation room not found' });
     } else {
@@ -33,11 +33,14 @@ exports.getConsultationRoomById = async (req, res) => {
 
 exports.updateConsultationRoom = async (req, res) => {
   try {
-    const consultationRoom = await ConsultationRoom.update(req.params.id, req.body);
-    if (!consultationRoom) {
+    const [updated] = await ConsultationRoom.update(req.body, {
+      where: { id: req.params.id }
+    });
+    if (!updated) {
       res.status(404).json({ message: 'Consultation room not found' });
     } else {
-      res.status(200).json(consultationRoom);
+      const updatedConsultationRoom = await ConsultationRoom.findByPk(req.params.id);
+      res.status(200).json(updatedConsultationRoom);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -46,11 +49,13 @@ exports.updateConsultationRoom = async (req, res) => {
 
 exports.deleteConsultationRoom = async (req, res) => {
   try {
-    const consultationRoom = await ConsultationRoom.delete(req.params.id);
-    if (!consultationRoom) {
+    const deleted = await ConsultationRoom.destroy({
+      where: { id: req.params.id }
+    });
+    if (!deleted) {
       res.status(404).json({ message: 'Consultation room not found' });
     } else {
-      res.status(200).json(consultationRoom);
+      res.status(200).json({ message: 'Consultation room deleted' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

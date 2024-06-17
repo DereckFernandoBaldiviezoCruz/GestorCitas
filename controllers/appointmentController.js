@@ -11,7 +11,7 @@ exports.createAppointment = async (req, res) => {
 
 exports.getAllAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.getAll();
+    const appointments = await Appointment.findAll();
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -20,7 +20,7 @@ exports.getAllAppointments = async (req, res) => {
 
 exports.getAppointmentById = async (req, res) => {
   try {
-    const appointment = await Appointment.getById(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.id);
     if (!appointment) {
       res.status(404).json({ message: 'Appointment not found' });
     } else {
@@ -33,11 +33,14 @@ exports.getAppointmentById = async (req, res) => {
 
 exports.updateAppointment = async (req, res) => {
   try {
-    const appointment = await Appointment.update(req.params.id, req.body);
-    if (!appointment) {
+    const [updated] = await Appointment.update(req.body, {
+      where: { id: req.params.id }
+    });
+    if (!updated) {
       res.status(404).json({ message: 'Appointment not found' });
     } else {
-      res.status(200).json(appointment);
+      const updatedAppointment = await Appointment.findByPk(req.params.id);
+      res.status(200).json(updatedAppointment);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -46,37 +49,14 @@ exports.updateAppointment = async (req, res) => {
 
 exports.deleteAppointment = async (req, res) => {
   try {
-    const appointment = await Appointment.delete(req.params.id);
-    if (!appointment) {
+    const deleted = await Appointment.destroy({
+      where: { id: req.params.id }
+    });
+    if (!deleted) {
       res.status(404).json({ message: 'Appointment not found' });
     } else {
-      res.status(200).json(appointment);
+      res.status(200).json({ message: 'Appointment deleted' });
     }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.getPendingAppointmentsByPatient = async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT * FROM appointments WHERE patient_id = $1 AND status = $2',
-      [req.params.patientId, 'pending']
-    );
-    res.status(200).json(result.rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.getPendingAppointmentsByDoctorAndDate = async (req, res) => {
-  try {
-    const { doctorId, date } = req.params;
-    const result = await pool.query(
-      'SELECT * FROM appointments WHERE doctor_id = $1 AND date::date = $2 AND status = $3',
-      [doctorId, date, 'pending']
-    );
-    res.status(200).json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

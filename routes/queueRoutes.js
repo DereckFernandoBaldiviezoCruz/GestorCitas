@@ -1,7 +1,6 @@
 const express = require('express');
-const queueController = require('../controllers/queueController');
-
 const router = express.Router();
+const queueController = require('../controllers/queueController');
 
 router.post('/', queueController.createQueue);
 router.get('/', queueController.getAllQueues);

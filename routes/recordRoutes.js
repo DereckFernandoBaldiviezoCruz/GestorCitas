@@ -1,7 +1,6 @@
 const express = require('express');
-const recordController = require('../controllers/recordController');
-
 const router = express.Router();
+const recordController = require('../controllers/recordController');
 
 router.post('/', recordController.createRecord);
 router.get('/', recordController.getAllRecords);

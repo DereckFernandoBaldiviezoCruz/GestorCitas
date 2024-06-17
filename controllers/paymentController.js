@@ -11,7 +11,7 @@ exports.createPayment = async (req, res) => {
 
 exports.getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.getAll();
+    const payments = await Payment.findAll();
     res.status(200).json(payments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -20,7 +20,7 @@ exports.getAllPayments = async (req, res) => {
 
 exports.getPaymentById = async (req, res) => {
   try {
-    const payment = await Payment.getById(req.params.id);
+    const payment = await Payment.findByPk(req.params.id);
     if (!payment) {
       res.status(404).json({ message: 'Payment not found' });
     } else {
@@ -33,11 +33,14 @@ exports.getPaymentById = async (req, res) => {
 
 exports.updatePayment = async (req, res) => {
   try {
-    const payment = await Payment.update(req.params.id, req.body);
-    if (!payment) {
+    const [updated] = await Payment.update(req.body, {
+      where: { id: req.params.id }
+    });
+    if (!updated) {
       res.status(404).json({ message: 'Payment not found' });
     } else {
-      res.status(200).json(payment);
+      const updatedPayment = await Payment.findByPk(req.params.id);
+      res.status(200).json(updatedPayment);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -46,25 +49,14 @@ exports.updatePayment = async (req, res) => {
 
 exports.deletePayment = async (req, res) => {
   try {
-    const payment = await Payment.delete(req.params.id);
-    if (!payment) {
+    const deleted = await Payment.destroy({
+      where: { id: req.params.id }
+    });
+    if (!deleted) {
       res.status(404).json({ message: 'Payment not found' });
     } else {
-      res.status(200).json(payment);
+      res.status(200).json({ message: 'Payment deleted' });
     }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.getPaymentsByPatientInPeriod = async (req, res) => {
-  try {
-    const { patientId, startDate, endDate } = req.params;
-    const result = await pool.query(
-      'SELECT * FROM payments WHERE patient_id = $1 AND date BETWEEN $2 AND $3',
-      [patientId, startDate, endDate]
-    );
-    res.status(200).json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

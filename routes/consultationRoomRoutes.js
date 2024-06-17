@@ -1,7 +1,6 @@
 const express = require('express');
-const consultationRoomController = require('../controllers/consultationRoomController');
-
 const router = express.Router();
+const consultationRoomController = require('../controllers/consultationRoomController');
 
 router.post('/', consultationRoomController.createConsultationRoom);
 router.get('/', consultationRoomController.getAllConsultationRooms);

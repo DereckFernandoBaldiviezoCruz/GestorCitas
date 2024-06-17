@@ -1,39 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const patientRoutes = require('./routes/patientRoutes');
-const doctorRoutes = require('./routes/doctorRoutes');
-const consultationRoomRoutes = require('./routes/consultationRoomRoutes');
-const queueRoutes = require('./routes/queueRoutes');
-const recordRoutes = require('./routes/recordRoutes');
-const appointmentRoutes = require('./routes/appointmentRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
-const sequelize = require('./database/database'); // importa sequelize
-require('dotenv').config();
+const routes = require('./routes');
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-app.use('/patients', patientRoutes);
-app.use('/doctors', doctorRoutes);
-app.use('/consultation-rooms', consultationRoomRoutes);
-app.use('/queues', queueRoutes);
-app.use('/records', recordRoutes);
-app.use('/appointments', appointmentRoutes);
-app.use('/payments', paymentRoutes);
+app.use('/api', routes);
 
-const PORT = process.env.PORT || 3000;
-
-// Iniciar la aplicación después de sincronizar los modelos con la base de datos
-sequelize.sync()
-  .then(() => {
-    console.log('Database synced');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('Database sync error:', err);
-  });
-
-module.exports = app;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
