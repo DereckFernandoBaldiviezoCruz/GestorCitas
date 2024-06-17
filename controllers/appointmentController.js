@@ -64,11 +64,11 @@ exports.deleteAppointment = async (req, res) => {
 };
 
 exports.getPendingAppointmentsByDoctorAndDate = async (req, res) => {
-  const { doctorId, date } = req.query;
+  const { doctor_id, date } = req.query;
   try {
     const appointments = await Appointment.findAll({
       where: {
-        doctorId,
+        doctor_id,
         date: {
           [Op.eq]: new Date(date)
         },
