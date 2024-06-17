@@ -7,6 +7,6 @@ router.get('/', patientController.getAllPatients);
 router.get('/:id', patientController.getPatientById);
 router.put('/:id', patientController.updatePatient);
 router.delete('/:id', patientController.deletePatient);
-router.get('/:patientId/appointments/pending', patientController.getPendingAppointments);
+router.get('/:patient_id/appointments/pending', patientController.getPendingAppointments);
 
 module.exports = router;
