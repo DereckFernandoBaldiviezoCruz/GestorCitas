@@ -7,6 +7,6 @@ router.get('/', appointmentController.getAllAppointments);
 router.get('/:id', appointmentController.getAppointmentById);
 router.put('/:id', appointmentController.updateAppointment);
 router.delete('/:id', appointmentController.deleteAppointment);
-router.get('/by-doctor-date', appointmentController.getPendingAppointmentsByDoctorAndDate);
+router.get('/by-doctor-date/:doctor_id/:date', appointmentController.getPendingAppointmentsByDoctorAndDate);
 
 module.exports = router;
