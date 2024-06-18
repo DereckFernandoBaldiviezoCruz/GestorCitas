@@ -1,5 +1,5 @@
 const Appointment = require('../models/appointment');
-const  Op  = require('sequelize');
+const { Op } = require('sequelize');
 
 exports.createAppointment = async (req, res) => {
   try {
@@ -64,8 +64,9 @@ exports.deleteAppointment = async (req, res) => {
 };
 
 exports.getPendingAppointmentsByDoctorAndDate = async (req, res) => {
-  const { doctor_id, date } = req.query;
+  
   try {
+    const { doctor_id, date } = req.params;
     const appointments = await Appointment.findAll({
       where: {
         doctor_id,
