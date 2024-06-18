@@ -18,6 +18,10 @@ const Patient = sequelize.define('Patient', {
   phone: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  gender:{
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   tableName: 'patients',
