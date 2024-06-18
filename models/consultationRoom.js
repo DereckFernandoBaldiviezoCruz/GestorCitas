@@ -10,6 +10,14 @@ const ConsultationRoom = sequelize.define('ConsultationRoom', {
   name: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  ubication: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  operations: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: 'consultation_rooms',
