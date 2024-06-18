@@ -65,11 +65,12 @@ exports.deletePayment = async (req, res) => {
 
 exports.getPaymentsByPatientAndDate = async (req, res) => {
   try {
+    const { patient_id, startDate, endDate } = req.params;
     const payments = await Payment.findAll({
       where: {
-        patient_id: req.params.patient_id,
+        patient_id,
         date: {
-          [Op.between]: [new Date(req.params.startDate), new Date(req.params.endDate)]
+          [Op.between]: [new Date(startDate), new Date(endDate)]
         }
       }
     });
