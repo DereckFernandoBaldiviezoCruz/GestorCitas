@@ -11,11 +11,7 @@ const ConsultationRoom = sequelize.define('ConsultationRoom', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  ubication: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  operations: {
+  location: {
     type: DataTypes.STRING,
     allowNull: true
   }
