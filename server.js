@@ -1,11 +1,10 @@
-const express = require('express');
+/*const express = require('express');
 const { Pool } = require('pg');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configurar la conexión a la base de datos
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -13,7 +12,6 @@ const pool = new Pool({
   }
 });
 
-// Ruta de prueba para verificar la conexión a la base de datos
 app.get('/test-db', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -29,3 +27,4 @@ app.get('/test-db', async (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+*/
